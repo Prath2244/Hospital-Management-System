@@ -166,30 +166,6 @@ The application will be available at `http://localhost:8000`.
 
 ---
 
-## 🧹 Cleanup & Publishing
-
-If you are preparing this repository for a fresh GitHub push, use this checklist to ensure no local data is committed:
-
-| Item                     | Action                          | Status |
-|---------------------------|----------------------------------|--------|
-| `db.sqlite3`              | Delete                          | ✅ |
-| `main/migrations/0*.py`   | Delete (keep `__init__.py`)     | ✅ |
-| `venv/` folder            | Delete                          | ✅ |
-| `media/` folder           | Delete                          | ✅ |
-| `__pycache__/` folders    | Delete                          | ✅ |
-| `*.pyc` files              | Delete                          | ✅ |
-| `.gitignore`               | Create                          | ✅ |
-| `requirements.txt`         | Keep                             | ✅ |
-| `seed_doctors.py`          | Keep                             | ✅ |
-
-**Summary of clean state:**
-- Database is completely empty (no patient/doctor records).
-- No dependencies or virtual environments included.
-- Media folder is wiped (no sample profile pictures).
-- All source code is preserved and ready for a fresh install.
-
----
-
 ## 🗺️ Roadmap
 
 - [x] Role-based access for Admin, Doctor, and Patient
