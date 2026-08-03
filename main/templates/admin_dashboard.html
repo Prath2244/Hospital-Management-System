@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4">📊 Admin Dashboard</h2>
+<div class="row">
+    <div class="col-md-4">
+        <a href="{% url 'admin-doctor' %}" style="text-decoration: none; color: inherit;">
+            <div class="dashboard-stat stat-blue"><h4>Total Doctors</h4><h2>{{ total_doctors }}</h2></div>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a href="{% url 'admin-patient' %}" style="text-decoration: none; color: inherit;">
+            <div class="dashboard-stat stat-green"><h4>Total Patients</h4><h2>{{ total_patients }}</h2></div>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a href="{% url 'admin-discharge' %}" style="text-decoration: none; color: inherit;">
+            <div class="dashboard-stat stat-red"><h4>Discharged</h4><h2>{{ discharged_patients }}</h2></div>
+        </a>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5>⏳ Pending Doctors: {{ pending_doctors }}</h5>
+            <a href="{% url 'admin-pending-doctor' %}" class="btn btn-sm btn-primary">Manage Pending</a>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5>📅 Pending Appointments: {{ pending_appointments }}</h5>
+            <a href="{% url 'admin-appointment' %}" class="btn btn-sm btn-primary">Manage</a>
+        </div>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-12">
+        <a href="{% url 'admin-discharge' %}" class="btn btn-danger">🔄 Go to Discharge Patients</a>
+    </div>
+</div>
+{% endblock %}

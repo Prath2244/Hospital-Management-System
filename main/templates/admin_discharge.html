@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+<a href="{% url 'admin-dashboard' %}" class="btn btn-secondary mb-3 w-auto">⬅ Back to Dashboard</a>
+
+<!-- Active Appointments (Not Discharged) -->
+<div class="card p-4 mb-4">
+    <h4>🔄 Active Appointments (Not Discharged)</h4>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Symptoms</th>
+                <th>Duration</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for a in active_appointments %}
+        <tr>
+            <td>{{ a.patientId.get_name }}</td>
+            <td>{% if a.doctorId %}{{ a.doctorId.get_name }}{% else %}N/A{% endif %}</td>
+            <td>{{ a.description }}</td>
+            <td>{% if a.duration %}{{ a.duration }}{% else %}N/A{% endif %}</td>
+            <td>{{ a.date }}</td>
+            <td><a href="{% url 'discharge-patient' a.id %}" class="btn btn-danger btn-sm">Discharge</a></td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="text-center">No active appointments found.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Discharged Appointments (With Download Button) -->
+<div class="card p-4">
+    <h4>📄 Discharged Appointments (Invoices)</h4>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Symptoms</th>
+                <th>Discharge Date</th>
+                <th>Total Bill ($)</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for d in discharged %}
+        <tr>
+            <td>{{ d.patientId.get_name }}</td>
+            <td>{% if d.doctorId %}{{ d.doctorId.get_name }}{% else %}N/A{% endif %}</td>
+            <td>{{ d.appointment.description }}</td>
+            <td>{{ d.releaseDate }}</td>
+            <td>${{ d.total }}</td>
+            <td>
+                <a href="{% url 'download-invoice' d.id %}" class="btn btn-success btn-sm">
+                    📄 Download Invoice
+                </a>
+                <a href="{% url 'delete-patient' d.patientId.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Delete this patient record?')">
+                    Delete
+                </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="text-center">No discharged appointments yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

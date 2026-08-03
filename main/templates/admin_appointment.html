@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<a href="{% url 'admin-dashboard' %}" class="btn btn-secondary mb-3 w-auto">⬅ Back to Dashboard</a>
+<div class="card p-4">
+    <h4>📅 Pending Appointments</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Symptoms</th>
+                <th>Duration</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for a in appointments %}
+        <tr>
+            <td>{{ a.patientId.get_name }}</td>
+            <td>
+                {% if a.doctorId %}
+                    {{ a.doctorId.get_name }}
+                {% else %}
+                    <span class="text-muted">Not assigned</span>
+                {% endif %}
+            </td>
+            <td>{{ a.description }}</td>
+            <td>{% if a.duration %}{{ a.duration }}{% else %}N/A{% endif %}</td>
+            <td>{{ a.date }}</td>
+            <td>
+                <form method="POST" action="{% url 'approve-appointment' a.id %}" style="display:inline-block">
+                    {% csrf_token %}
+                    <select name="doctor_id" class="form-select form-select-sm d-inline w-auto" required>
+                        <option value="">Select Doctor</option>
+                        {% for d in doctors %}
+                        <option value="{{ d.id }}">{{ d.get_name }} ({{ d.department }})</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-sm btn-success">Approve & Assign</button>
+                </form>
+                <a href="{% url 'reject-appointment' a.id %}" class="btn btn-sm btn-danger">Reject</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="text-center">No pending appointments.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
