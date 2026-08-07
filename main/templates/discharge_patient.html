@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<a href="{% url 'admin-discharge' %}" class="btn btn-secondary mb-3 w-auto">⬅ Back to Discharge</a>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card p-4">
+            <h4>💳 Discharge Appointment</h4>
+            <hr>
+            <p><strong>Patient:</strong> {{ patient.get_name }}</p>
+            <p><strong>Doctor:</strong> {% if doctor %}{{ doctor.get_name }}{% else %}N/A{% endif %}</p>
+            <p><strong>Admit Date:</strong> {{ patient.admitDate }}</p>
+            <p><strong>Appointment Description:</strong> {{ appointment.description }}</p>
+            <hr>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button class="btn btn-danger w-100 mt-3">✅ Generate Bill & Discharge</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
