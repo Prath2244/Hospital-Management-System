@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<a href="{% url 'doctor-dashboard' %}" class="btn btn-secondary mb-3 w-auto">⬅ Back to Dashboard</a>
+<div class="card p-4">
+    <h4>👨‍⚕️ My Patients</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Patient Name</th>
+                <th>Symptoms</th>
+                <th>Duration</th>
+                <th>Mobile</th>
+                <th>Appointment Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for a in appointments %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ a.patientId.get_name }}</td>
+            <td>{{ a.description }}</td>
+            <td>{% if a.duration %}{{ a.duration }}{% else %}N/A{% endif %}</td>
+            <td>{{ a.patientId.mobile }}</td>
+            <td>{{ a.date }}</td>
+            <td>
+                {% if a.id in discharged_appointment_ids %}
+                    <span class="badge bg-danger">Discharged</span>
+                {% else %}
+                    <span class="badge bg-success">Active</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7" class="text-center">No patients assigned to you.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
